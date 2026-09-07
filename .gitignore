@@ -1,3 +1,14 @@
 node_modules
 .env
 *.log
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars.backup
+crash.log
+crash.*.log
+
+# terraform.lock.hcl is intentionally NOT ignored — it should be committed
+# terraform.lock.hcl
