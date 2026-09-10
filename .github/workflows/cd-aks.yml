@@ -1,0 +1,34 @@
+name: CD to AKS
+
+on:
+  workflow_run:
+    workflows: ["CI with Quality Gates"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials \
+            --resource-group rg-tf-capstone \
+            --name aks-tf-capstone \
+            --overwrite-existing
+
+      - name: Set new image on deployment
+        run: |
+          kubectl set image deployment/api \
+            api=rezabozorgi/task-api:${{ github.sha }}
+
+      - name: Wait for rollout
+        run: kubectl rollout status deployment/api --timeout=180s
