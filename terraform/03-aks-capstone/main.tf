@@ -45,6 +45,10 @@ module "aks" {
   agents_size  = var.node_vm_size
 
   network_plugin = "azure"
+  role_based_access_control_enabled = true
+  rbac_aad                          = false
+
+  depends_on = [azurerm_resource_group.main]
 }
 
 output "resource_group_name" {

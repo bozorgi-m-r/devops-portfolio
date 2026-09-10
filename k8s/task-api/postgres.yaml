@@ -25,6 +25,10 @@ spec:
                   key: DB_PASSWORD
             - name: POSTGRES_DB
               value: "tasks_db"
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/pgdata"
+            - name: POSTGRES_DB
+              value: "tasks_db"
           ports:
             - containerPort: 5432
           volumeMounts:
