@@ -1,0 +1,16 @@
+name: Deploy with Approval
+
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/deploy-with-approval.yml"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy (placeholder)
+        run: echo "در حال دیپلوی به production..."
